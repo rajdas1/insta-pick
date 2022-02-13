@@ -13,12 +13,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         
         if let rootController =  window?.rootViewController as? ImageListViewController {
-            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM d, h:mm a"
+            rootController.viewModel = ImageListViewModel(
+                NetworkManager(),
+                imageRepository: ImageRepository(),
+                dateFormatter: dateFormatter,
+                isLoading: false
+            )
         }
-        
         return true
     }
 }

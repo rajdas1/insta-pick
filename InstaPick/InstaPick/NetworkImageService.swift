@@ -9,19 +9,29 @@ import Foundation
 
 
 protocol NetworkImageService {
-    func fetchImages(_ success: ([Image]) -> Void, failure: (Error) -> Void)
+    func fetchImages(_ success: @escaping ([Image]) -> Void, failure: @escaping (Error) -> Void)
 }
 
 class NetworkManager: NetworkImageService {
-    func fetchImages(_ success: ([Image]) -> Void, failure: (Error) -> Void) {
+    func fetchImages(_ success: @escaping ([Image]) -> Void, failure: @escaping (Error) -> Void) {
         
-        if let url = URL(string: "https://www.reddit.com/r/pics/.json?jsonp=") {
-            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-                
-            }
-            task.resume()
-        } else {
-            
+        guard let url = URL(string: "https://www.reddit.com/r/pics/.json?jsonp=") else {
+            failure(LocalError.badURL)
+            return
         }
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            do {
+                let imageData = try JSONDecoder().decode(ImageResponse.self, from: data!)
+                success(imageData.images)
+            } catch {
+                failure(LocalError.parsingFailed(error))
+            }
+        }
+        task.resume()
     }
+}
+
+enum LocalError: Error {
+    case badURL
+    case parsingFailed(Error)
 }

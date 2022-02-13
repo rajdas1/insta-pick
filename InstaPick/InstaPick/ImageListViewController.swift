@@ -20,16 +20,34 @@ class ImageListViewController: UITableViewController {
     }
 
     private func setUpViewModelBindings() {
-        viewModel?.images?.bind { [weak self] images in
-            self?.tableView.reloadData()
+        viewModel?.images.bind { [weak self] images in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
         }
         viewModel?.isLoading.bind { [weak self] isLoading in
-            (isLoading ?? false) ? self?.activity?.startAnimating() : self?.activity?.stopAnimating()
+            DispatchQueue.main.async {
+                (isLoading ?? false) ? self?.activity?.startAnimating() : self?.activity?.stopAnimating()
+            }
         }
-        viewModel?.error?.bind { [weak self] error in
+        viewModel?.error.bind { [weak self] error in
             if let error = error {
-                let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-                self?.present(alert, animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "retry", style: .default, handler: { _ in
+                        self?.viewModel?.fetchImages()
+                    }))
+                    alert.addAction(UIAlertAction(title: "ok", style: .default))
+                    self?.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
+    @IBAction func refreshed(_ sender: UIRefreshControl) {
+        viewModel?.fetchImages {
+            DispatchQueue.main.async {
+                sender.endRefreshing()
             }
         }
     }
@@ -44,12 +62,17 @@ class ImageListViewController: UITableViewController {
 // Data source
 extension ImageListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel?.images?.value?.count ?? 0
+        viewModel?.images.value?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath)
-        cell.textLabel?.text = viewModel?.images?.value?[indexPath.row].title
+        guard let data = viewModel?.images.value?[indexPath.row] else {
+            fatalError("Couldn't find data")
+        }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as? ImageListCell else {
+            fatalError("Couldn't dequeue")
+        }
+        cell.set(data, imageRepo: viewModel?.imageRepo, dateFormatter: viewModel?.dateFormatter)
         return cell
     }
 }
