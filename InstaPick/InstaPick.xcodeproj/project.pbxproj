@@ -92,6 +92,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D8E268827B9A02D008AB84D /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6DACC27427B7829700ADD48A /* ImageListViewController.swift */,
+				6D8E267E27B99406008AB84D /* ImageViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		6D8E268927B9A041008AB84D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6D8E268327B9949C008AB84D /* ImageView.storyboard */,
+				6D8E266F27B96ECD008AB84D /* ImageListCell.swift */,
+				6DACC27627B7829700ADD48A /* Main.storyboard */,
+				6DACC27B27B7829800ADD48A /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6D8E268B27B9A05D008AB84D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6DACC2A627B79A2800ADD48A /* ViewModel.swift */,
+				6D8E266A27B916BC008AB84D /* Model.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6D8E268C27B9A073008AB84D /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				6DACC2B327B7D32D00ADD48A /* Observable.swift */,
+				6D8E267927B99081008AB84D /* Reachability.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		6D8E269127B9A142008AB84D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				6DACC2BE27B8050200ADD48A /* NetworkImageService.swift */,
+				6D8E267427B97268008AB84D /* ImageRepository.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		6DACC26427B7829700ADD48A = {
 			isa = PBXGroup;
 			children = (
@@ -116,19 +163,12 @@
 			isa = PBXGroup;
 			children = (
 				6DACC27027B7829700ADD48A /* AppDelegate.swift */,
-				6DACC27427B7829700ADD48A /* ImageListViewController.swift */,
-				6D8E267E27B99406008AB84D /* ImageViewController.swift */,
-				6D8E268327B9949C008AB84D /* ImageView.storyboard */,
-				6DACC2B327B7D32D00ADD48A /* Observable.swift */,
-				6DACC2A627B79A2800ADD48A /* ViewModel.swift */,
-				6D8E266A27B916BC008AB84D /* Model.swift */,
-				6DACC2BE27B8050200ADD48A /* NetworkImageService.swift */,
-				6D8E267927B99081008AB84D /* Reachability.swift */,
-				6D8E266F27B96ECD008AB84D /* ImageListCell.swift */,
-				6D8E267427B97268008AB84D /* ImageRepository.swift */,
-				6DACC27627B7829700ADD48A /* Main.storyboard */,
+				6D8E268827B9A02D008AB84D /* View Controllers */,
+				6D8E268927B9A041008AB84D /* Views */,
+				6D8E268B27B9A05D008AB84D /* Models */,
+				6D8E268C27B9A073008AB84D /* Utility */,
+				6D8E269127B9A142008AB84D /* Services */,
 				6DACC27927B7829800ADD48A /* Assets.xcassets */,
-				6DACC27B27B7829800ADD48A /* LaunchScreen.storyboard */,
 				6DACC27E27B7829800ADD48A /* Info.plist */,
 			);
 			path = InstaPick;
