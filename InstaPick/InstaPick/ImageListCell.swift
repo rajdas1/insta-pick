@@ -11,7 +11,6 @@ class ImageListCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        thumbnail.layer.cornerRadius = 5
     }
     
     override func prepareForReuse() {
@@ -26,6 +25,7 @@ class ImageListCell: UITableViewCell {
     func set(_ data: Image, imageRepo: ImageStorable?, dateFormatter: DateFormatter?) {
         titleLabel.text = data.title
         timestampLabel.text = dateFormatter?.string(from: data.timeStamp)
+        thumbnail.layer.cornerRadius = 10
         
         guard let imageURL = data.thumbnailURL else {
             return

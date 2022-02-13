@@ -33,11 +33,11 @@ class ImageListViewController: UITableViewController {
         viewModel?.error.bind { [weak self] error in
             if let error = error {
                 DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "retry", style: .default, handler: { _ in
+                    let alert = UIAlertController(title: "Error", message: "\(error)", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { _ in
                         self?.viewModel?.fetchImages()
                     }))
-                    alert.addAction(UIAlertAction(title: "ok", style: .default))
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default))
                     self?.present(alert, animated: true, completion: nil)
                 }
             }
@@ -59,7 +59,7 @@ class ImageListViewController: UITableViewController {
     }
 }
 
-// Data source
+// MARK: - Data source
 extension ImageListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel?.images.value?.count ?? 0
@@ -74,6 +74,26 @@ extension ImageListViewController {
         }
         cell.set(data, imageRepo: viewModel?.imageRepo, dateFormatter: viewModel?.dateFormatter)
         return cell
+    }
+}
+
+// MARK: - Delegate
+extension ImageListViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let viewModel = viewModel, let data = viewModel.images.value?[indexPath.row] else {
+            fatalError("Couldn't find data")
+        }
+        let storyboard = UIStoryboard(name: "ImageView", bundle: nil)
+        guard let controller = storyboard.instantiateViewController(identifier: "ImageViewController") as? ImageViewController else {
+            return
+        }
+        let model = ImageViewModel(
+            image: data,
+            imageRepo: viewModel.imageRepo,
+            dateFormatter: viewModel.dateFormatter
+        )
+        controller.viewModel = model
+        present(controller, animated: true, completion: nil)
     }
 }
 

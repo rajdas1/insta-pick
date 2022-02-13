@@ -51,4 +51,10 @@ class ImageListViewModel: ImageListViewModelProtocol {
     }
 }
 
+struct ImageViewModel {
+    let image: Image
+    let imageRepo: ImageStorable
+    let dateFormatter: DateFormatter
+}
+
 

@@ -10,6 +10,9 @@
 		6D8E266B27B916BC008AB84D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8E266A27B916BC008AB84D /* Model.swift */; };
 		6D8E267027B96ECD008AB84D /* ImageListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8E266F27B96ECD008AB84D /* ImageListCell.swift */; };
 		6D8E267527B97268008AB84D /* ImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8E267427B97268008AB84D /* ImageRepository.swift */; };
+		6D8E267A27B99081008AB84D /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8E267927B99081008AB84D /* Reachability.swift */; };
+		6D8E267F27B99406008AB84D /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8E267E27B99406008AB84D /* ImageViewController.swift */; };
+		6D8E268427B9949C008AB84D /* ImageView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D8E268327B9949C008AB84D /* ImageView.storyboard */; };
 		6DACC27127B7829700ADD48A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DACC27027B7829700ADD48A /* AppDelegate.swift */; };
 		6DACC27527B7829700ADD48A /* ImageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DACC27427B7829700ADD48A /* ImageListViewController.swift */; };
 		6DACC27827B7829700ADD48A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DACC27627B7829700ADD48A /* Main.storyboard */; };
@@ -43,6 +46,9 @@
 		6D8E266A27B916BC008AB84D /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		6D8E266F27B96ECD008AB84D /* ImageListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListCell.swift; sourceTree = "<group>"; };
 		6D8E267427B97268008AB84D /* ImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepository.swift; sourceTree = "<group>"; };
+		6D8E267927B99081008AB84D /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		6D8E267E27B99406008AB84D /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
+		6D8E268327B9949C008AB84D /* ImageView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImageView.storyboard; sourceTree = "<group>"; };
 		6DACC26D27B7829700ADD48A /* InstaPick.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaPick.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DACC27027B7829700ADD48A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6DACC27427B7829700ADD48A /* ImageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListViewController.swift; sourceTree = "<group>"; };
@@ -111,10 +117,13 @@
 			children = (
 				6DACC27027B7829700ADD48A /* AppDelegate.swift */,
 				6DACC27427B7829700ADD48A /* ImageListViewController.swift */,
+				6D8E267E27B99406008AB84D /* ImageViewController.swift */,
+				6D8E268327B9949C008AB84D /* ImageView.storyboard */,
 				6DACC2B327B7D32D00ADD48A /* Observable.swift */,
 				6DACC2A627B79A2800ADD48A /* ViewModel.swift */,
 				6D8E266A27B916BC008AB84D /* Model.swift */,
 				6DACC2BE27B8050200ADD48A /* NetworkImageService.swift */,
+				6D8E267927B99081008AB84D /* Reachability.swift */,
 				6D8E266F27B96ECD008AB84D /* ImageListCell.swift */,
 				6D8E267427B97268008AB84D /* ImageRepository.swift */,
 				6DACC27627B7829700ADD48A /* Main.storyboard */,
@@ -247,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DACC27D27B7829800ADD48A /* LaunchScreen.storyboard in Resources */,
+				6D8E268427B9949C008AB84D /* ImageView.storyboard in Resources */,
 				6DACC27A27B7829800ADD48A /* Assets.xcassets in Resources */,
 				6DACC27827B7829700ADD48A /* Main.storyboard in Resources */,
 			);
@@ -275,9 +285,11 @@
 			files = (
 				6D8E267027B96ECD008AB84D /* ImageListCell.swift in Sources */,
 				6DACC27527B7829700ADD48A /* ImageListViewController.swift in Sources */,
+				6D8E267F27B99406008AB84D /* ImageViewController.swift in Sources */,
 				6DACC27127B7829700ADD48A /* AppDelegate.swift in Sources */,
 				6D8E267527B97268008AB84D /* ImageRepository.swift in Sources */,
 				6DACC2A727B79A2800ADD48A /* ViewModel.swift in Sources */,
+				6D8E267A27B99081008AB84D /* Reachability.swift in Sources */,
 				6D8E266B27B916BC008AB84D /* Model.swift in Sources */,
 				6DACC2BF27B8050200ADD48A /* NetworkImageService.swift in Sources */,
 				6DACC2B427B7D32D00ADD48A /* Observable.swift in Sources */,
