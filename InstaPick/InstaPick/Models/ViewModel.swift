@@ -17,14 +17,21 @@ protocol ImageListViewModelProtocol {
     var dateFormatter: DateFormatter { get set }
 }
 
+protocol ImageSearchProtocol {
+    var filteredImages: Observable<[Image]> { get set }
+}
+
+typealias ImageListAndSearchProtocol = ImageListViewModelProtocol & ImageSearchProtocol
+
 extension ImageListViewModelProtocol {
     func fetchImages(_ completion: (() -> Void)? = nil) {
         fetchImages(completion)
     }
 }
 
-class ImageListViewModel: ImageListViewModelProtocol {
+class ImageListViewModel: ImageListViewModelProtocol, ImageSearchProtocol {
     
+    var filteredImages: Observable<[Image]> = Observable<[Image]>()
     var images: Observable<[Image]> = Observable<[Image]>()
     var error: Observable<Error> = Observable<Error>()
     var isLoading: Observable<Bool> = Observable<Bool>()
@@ -43,6 +50,7 @@ class ImageListViewModel: ImageListViewModelProtocol {
     func fetchImages(_ completion: (() -> Void)?) {
         imageService.fetchImages { (images) in
             self.images.value = images
+            self.filteredImages.value = images
             completion?()
         } failure: { (error) in
             self.error.value = error

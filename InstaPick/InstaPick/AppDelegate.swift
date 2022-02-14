@@ -14,9 +14,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        if let rootController =  window?.rootViewController as? ImageListViewController {
+        let navigationController = window?.rootViewController as? UINavigationController
+        if let rootController =  navigationController?.children.first as? ImageListViewController {
+            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMM d, h:mm a"
+            
             rootController.viewModel = ImageListViewModel(
                 NetworkManager(),
                 imageRepository: ImageRepository(),

@@ -7,24 +7,23 @@
 
 import UIKit
 
-class ImageListViewController: UITableViewController {
+class ImageListViewController: UITableViewController, UISearchResultsUpdating {
 
-    var viewModel: ImageListViewModelProtocol?
+    var viewModel: ImageListAndSearchProtocol?
     var activity: UIActivityIndicatorView!
+    let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupTitle()
+        setupSearch()
         setupActivityIndicator()
         setUpViewModelBindings()
         viewModel?.fetchImages()
     }
 
     private func setUpViewModelBindings() {
-        viewModel?.images.bind { [weak self] images in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
-        }
         viewModel?.isLoading.bind { [weak self] isLoading in
             DispatchQueue.main.async {
                 (isLoading ?? false) ? self?.activity?.startAnimating() : self?.activity?.stopAnimating()
@@ -40,6 +39,11 @@ class ImageListViewController: UITableViewController {
                     alert.addAction(UIAlertAction(title: "Ok", style: .default))
                     self?.present(alert, animated: true, completion: nil)
                 }
+            }
+        }
+        viewModel?.filteredImages.bind { [weak self] images in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
             }
         }
     }
@@ -62,11 +66,11 @@ class ImageListViewController: UITableViewController {
 // MARK: - Data source
 extension ImageListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel?.images.value?.count ?? 0
+        viewModel?.filteredImages.value?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let data = viewModel?.images.value?[indexPath.row] else {
+        guard let data = viewModel?.filteredImages.value?[indexPath.row] else {
             fatalError("Couldn't find data")
         }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as? ImageListCell else {
@@ -80,7 +84,7 @@ extension ImageListViewController {
 // MARK: - Delegate
 extension ImageListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let viewModel = viewModel, let data = viewModel.images.value?[indexPath.row] else {
+        guard let viewModel = viewModel, let data = viewModel.filteredImages.value?[indexPath.row] else {
             fatalError("Couldn't find data")
         }
         let storyboard = UIStoryboard(name: "ImageView", bundle: nil)
@@ -93,7 +97,36 @@ extension ImageListViewController {
             dateFormatter: viewModel.dateFormatter
         )
         controller.viewModel = model
-        present(controller, animated: true, completion: nil)
+        searchController.dismiss(animated: true)
+        navigationController?.present(controller, animated: true, completion: nil)
     }
 }
 
+// MARK: - Search
+extension ImageListViewController {
+    
+    func setupTitle() {
+        title = "InstaPick"
+        navigationController?.navigationBar.titleTextAttributes = [
+            .foregroundColor: UIColor.red,
+            .font: UIFont(name: "Noteworthy-Bold", size: 20) as Any
+        ]
+    }
+    
+    func setupSearch() {
+        searchController.searchResultsUpdater = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
+        tableView.tableHeaderView = searchController.searchBar
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
+            viewModel?.filteredImages.value = viewModel?.images.value?.filter { image in
+                return image.title.lowercased().contains(searchText.lowercased())
+            }
+        } else {
+            viewModel?.filteredImages.value = viewModel?.images.value
+        }
+    }
+}
